@@ -302,6 +302,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3557489053456599219, guid: cf6fe21f3321e5e4ab409d18519f0312, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8622799480120198287, guid: cf6fe21f3321e5e4ab409d18519f0312, type: 3}
       propertyPath: m_Name
       value: Upper Pipe End
