@@ -73,7 +73,8 @@ public class GameManager : MonoBehaviour
     // }
 
     IEnumerator GetHighScores() {
-        UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/scores");
+        // UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/scores");
+        UnityWebRequest www = UnityWebRequest.Get(Application.absoluteURL + "/scores");
         yield return www.SendWebRequest();
  
         if (www.result != UnityWebRequest.Result.Success) {
@@ -94,7 +95,8 @@ public class GameManager : MonoBehaviour
         Debug.Log(points.ToString());
         form.AddField("highscore", points.ToString());
 
-        UnityWebRequest www = UnityWebRequest.Post("https://flappy.data-ensta.fr/score", form);
+        // UnityWebRequest www = UnityWebRequest.Post("https://flappy.data-ensta.fr/score", form);
+        UnityWebRequest www = UnityWebRequest.Post(Application.absoluteURL + "/score", form);
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
