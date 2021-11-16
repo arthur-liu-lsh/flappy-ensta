@@ -14,27 +14,41 @@ public class MenuHighScore : MonoBehaviour
     private int globalHighScore = -1;
     private int selfHighScore = -1;
 
-    IEnumerator GetGlobalHighScore(){
-        UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/highscore");
-        yield return www.SendWebRequest();
+    // IEnumerator GetGlobalHighScore(){
+    //     UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/highscore");
+    //     yield return www.SendWebRequest();
  
-        if (www.result != UnityWebRequest.Result.Success) {
-            Debug.Log(www.error);
-        }
-        else {
-            globalHighScore =  JsonUtility.FromJson<ScoreModel>(www.downloadHandler.text).highscore;
-        }
-    }
+    //     if (www.result != UnityWebRequest.Result.Success) {
+    //         Debug.Log(www.error);
+    //     }
+    //     else {
+    //         globalHighScore =  JsonUtility.FromJson<ScoreModel>(www.downloadHandler.text).highscore;
+    //     }
+    // }
 
-    IEnumerator GetSelfHighScore(){
-        UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/score");
+    // IEnumerator GetSelfHighScore(){
+    //     UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/score");
+    //     yield return www.SendWebRequest();
+ 
+    //     if (www.result != UnityWebRequest.Result.Success) {
+    //         Debug.Log(www.error);
+    //     }
+    //     else {
+    //         selfHighScore =  JsonUtility.FromJson<ScoreModel>(www.downloadHandler.text).highscore;
+    //     }
+    // }
+
+    IEnumerator GetHighScores() {
+        UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/scores");
         yield return www.SendWebRequest();
  
         if (www.result != UnityWebRequest.Result.Success) {
             Debug.Log(www.error);
         }
         else {
-            selfHighScore =  JsonUtility.FromJson<ScoreModel>(www.downloadHandler.text).highscore;
+            ScoreGetModel scores =  JsonUtility.FromJson<ScoreGetModel>(www.downloadHandler.text);
+            globalHighScore = scores.highscore;
+            selfHighScore = scores.userscore;
         }
     }
 
@@ -42,8 +56,7 @@ public class MenuHighScore : MonoBehaviour
     void Start()
     {
         highScoreText = GetComponent<TextMeshProUGUI>();
-        StartCoroutine(GetGlobalHighScore());
-        StartCoroutine(GetSelfHighScore());
+        StartCoroutine(GetHighScores());
     }
 
     void Update()

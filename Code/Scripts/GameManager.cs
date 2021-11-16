@@ -37,8 +37,7 @@ public class GameManager : MonoBehaviour
     }
 
     void LoadSaveScore() { // Send score to server
-        StartCoroutine(GetGlobalHighScore());
-        StartCoroutine(GetSelfHighScore());
+        StartCoroutine(GetHighScores());
         if (points > 0) {
             StartCoroutine(PostScore());
         }
@@ -46,27 +45,44 @@ public class GameManager : MonoBehaviour
 
 
 
-    IEnumerator GetGlobalHighScore() {
-        UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/highscore");
-        yield return www.SendWebRequest();
+    // IEnumerator GetGlobalHighScore() {
+    //     UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/highscore");
+    //     yield return www.SendWebRequest();
  
-        if (www.result != UnityWebRequest.Result.Success) {
-            Debug.Log(www.error);
-        }
-        else {
-            globalHighScore =  JsonUtility.FromJson<ScoreModel>(www.downloadHandler.text).highscore;
-        }
-    }
+    //     if (www.result != UnityWebRequest.Result.Success) {
+    //         Debug.Log(www.error);
+    //     }
+    //     else {
+    //         globalHighScore =  JsonUtility.FromJson<ScoreModel>(www.downloadHandler.text).highscore;
+    //     }
+    // }
 
-    IEnumerator GetSelfHighScore() {
-        UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/score");
+    // IEnumerator GetSelfHighScore() {
+    //     UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/score");
+    //     yield return www.SendWebRequest();
+ 
+    //     if (www.result != UnityWebRequest.Result.Success) {
+    //         Debug.Log(www.error);
+    //     }
+    //     else {
+    //         int selfHighScoreRequest = JsonUtility.FromJson<ScoreModel>(www.downloadHandler.text).highscore;
+    //         if (points < selfHighScoreRequest) {
+    //             selfHighScore = selfHighScoreRequest;
+    //         }
+    //     }
+    // }
+
+    IEnumerator GetHighScores() {
+        UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/scores");
         yield return www.SendWebRequest();
  
         if (www.result != UnityWebRequest.Result.Success) {
             Debug.Log(www.error);
         }
         else {
-            int selfHighScoreRequest = JsonUtility.FromJson<ScoreModel>(www.downloadHandler.text).highscore;
+            ScoreGetModel scores =  JsonUtility.FromJson<ScoreGetModel>(www.downloadHandler.text);
+            globalHighScore = scores.highscore;
+            int selfHighScoreRequest = scores.userscore;
             if (points < selfHighScoreRequest) {
                 selfHighScore = selfHighScoreRequest;
             }
