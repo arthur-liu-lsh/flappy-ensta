@@ -43,36 +43,8 @@ public class GameManager : MonoBehaviour
 
 
 
-    // IEnumerator GetGlobalHighScore() {
-    //     UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/highscore");
-    //     yield return www.SendWebRequest();
- 
-    //     if (www.result != UnityWebRequest.Result.Success) {
-    //         Debug.Log(www.error);
-    //     }
-    //     else {
-    //         globalHighScore =  JsonUtility.FromJson<ScoreModel>(www.downloadHandler.text).highscore;
-    //     }
-    // }
-
-    // IEnumerator GetSelfHighScore() {
-    //     UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/score");
-    //     yield return www.SendWebRequest();
- 
-    //     if (www.result != UnityWebRequest.Result.Success) {
-    //         Debug.Log(www.error);
-    //     }
-    //     else {
-    //         int selfHighScoreRequest = JsonUtility.FromJson<ScoreModel>(www.downloadHandler.text).highscore;
-    //         if (points < selfHighScoreRequest) {
-    //             selfHighScore = selfHighScoreRequest;
-    //         }
-    //     }
-    // }
-
     IEnumerator GetHighScores() {
-        // UnityWebRequest www = UnityWebRequest.Get("https://flappy.data-ensta.fr/scores");
-        UnityWebRequest www = UnityWebRequest.Get(Application.absoluteURL + "/scores");
+        UnityWebRequest www = UnityWebRequest.Get(Application.absoluteURL + "scores");
         yield return www.SendWebRequest();
  
         if (www.result != UnityWebRequest.Result.Success) {
@@ -93,8 +65,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(points.ToString());
         form.AddField("highscore", points.ToString());
 
-        // UnityWebRequest www = UnityWebRequest.Post("https://flappy.data-ensta.fr/score", form);
-        UnityWebRequest www = UnityWebRequest.Post(Application.absoluteURL + "/score", form);
+        UnityWebRequest www = UnityWebRequest.Post(Application.absoluteURL + "score", form);
         yield return www.SendWebRequest();
         if (www.result != UnityWebRequest.Result.Success)
         {
@@ -105,6 +76,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Form upload complete!");
         }
     }
+    
 
 
     public void StopTime() {
