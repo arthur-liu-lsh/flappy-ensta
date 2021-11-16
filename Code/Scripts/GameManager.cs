@@ -36,11 +36,9 @@ public class GameManager : MonoBehaviour
         return Random.Range(a, b);
     }
 
-    void LoadSaveScore() { // Send score to server
+    void LoadSaveScore() { // Post and get score from server
         StartCoroutine(GetHighScores());
-        if (points > 0) {
-            StartCoroutine(PostScore());
-        }
+        StartCoroutine(PostScore());
     }
 
 
