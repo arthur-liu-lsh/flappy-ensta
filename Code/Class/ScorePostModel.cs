@@ -3,7 +3,7 @@ public class ScorePostModel
 {
     public int userscore;
 
-    public ScoreGetModel(int newUserscore) {
+    public ScorePostModel(int newUserscore) {
         userscore = newUserscore;
     }
 }
