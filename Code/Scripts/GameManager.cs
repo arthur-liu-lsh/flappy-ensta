@@ -38,7 +38,9 @@ public class GameManager : MonoBehaviour
 
     void LoadSaveScore() { // Post and get score from server
         StartCoroutine(GetHighScores());
-        StartCoroutine(PostScore());
+        if (points > 0) {
+            StartCoroutine(PostScore());
+        }
     }
 
 
