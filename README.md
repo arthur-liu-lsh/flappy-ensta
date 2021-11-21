@@ -1,4 +1,4 @@
-"# flappy-ensta" 
+# flappy-ensta
 
 Flappy Bird style game created for school use.
 
