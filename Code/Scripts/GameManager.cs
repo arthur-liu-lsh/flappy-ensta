@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using System.Text;
 
 using UnityEngine;
 
@@ -43,6 +43,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Generate hash from input using MD5 method
+    public string CreateMD5(string input) {
+        // Use input string to calculate MD5 hash
+        using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+        {
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+            // Convert the byte array to hexadecimal string
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                sb.Append(hashBytes[i].ToString("x2"));
+            }
+            return sb.ToString();
+        }
+    }
+
 
 
     IEnumerator GetHighScores() {
@@ -64,8 +82,15 @@ public class GameManager : MonoBehaviour
 
     IEnumerator PostScore() {
         WWWForm form = new WWWForm();
-        Debug.Log(points.ToString());
-        form.AddField("highscore", points.ToString());
+        string highscore = points.ToString();
+
+        // Get password from Resources folder, need to create password.txt containing said password.
+        string password = Resources.Load<TextAsset>("password").text;
+        // Generate checksum using password and highscore
+        // The server needs to do the same then compare the checksums
+        string checksum = CreateMD5(password + highscore);
+        form.AddField("highscore", highscore);
+        form.AddField("checksum", checksum);
 
         UnityWebRequest www = UnityWebRequest.Post(Application.absoluteURL + "score", form);
         yield return www.SendWebRequest();
@@ -83,6 +108,7 @@ public class GameManager : MonoBehaviour
 
     public void StopTime() {
         LoadSaveScore();
+        Debug.Log(points);
         ShowGameOverMenu();
 
         isPaused = true;
