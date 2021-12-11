@@ -85,7 +85,9 @@ public class GameManager : MonoBehaviour
         string highscore = points.ToString();
 
         // Get password from Resources folder, need to create password.txt containing said password.
-        string password = Resources.Load<TextAsset>("password").text;
+        string password;
+        TextAsset textfile = Resources.Load<TextAsset>("password");
+        password = (textfile != null) ? textfile.text : "";
         // Generate checksum using password and highscore
         // The server needs to do the same then compare the checksums
         string checksum = CreateMD5(password + highscore);
